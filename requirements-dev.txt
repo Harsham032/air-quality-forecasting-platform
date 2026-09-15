@@ -1,0 +1,10 @@
+-r requirements.txt
+
+black>=24.3
+ruff>=0.4
+mypy>=1.9
+pytest>=8.1
+pytest-cov>=5.0
+pre-commit>=3.7
+pandas-stubs>=2.2
+types-PyYAML>=6.0

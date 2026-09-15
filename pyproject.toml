@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aqf"
+version = "0.1.0"
+description = "Deep sequence models for air quality forecasting, benchmarked against classical baselines with errors reported in physical units."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "harsham032" }]
+keywords = ["time-series", "forecasting", "deep-learning", "lstm", "air-quality"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+]
+
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+    "tensorflow-cpu>=2.16",
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "structlog>=24.1",
+    "PyYAML>=6.0",
+    "python-dotenv>=1.0",
+    "pyarrow>=15.0",
+]
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.8"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.4",
+    "black>=24.3",
+    "mypy>=1.9",
+    "types-PyYAML>=6.0",
+    "pandas-stubs>=2.2",
+    "pre-commit>=3.7",
+]
+
+[project.urls]
+Repository = "https://github.com/Harsham032/air-quality-forecasting-platform"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aqf = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "RET", "ARG", "PTH"]
+# E501: line length is black's job.
+# N803/N806: `X`, `y` for design matrices and targets is the scikit-learn and
+# Keras convention; renaming them to satisfy PEP 8 makes the code harder to
+# check against the APIs it calls.
+ignore = ["E501", "N803", "N806"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ARG001", "ARG002"]
+"scripts/*" = ["T201"]
+
+[tool.mypy]
+python_version = "3.11"
+# Scripts and examples are checked too, not just the package. They are where the
+# wiring lives - the argument parsing, the calls into the library - and an
+# unchecked script is exactly where a misspelled attribute survives to runtime.
+files = ["src/aqf", "scripts", "examples"]
+mypy_path = "src"
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "slow: tests that train a neural network",
+]
+
+[tool.coverage.run]
+source = ["src/aqf"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:", "raise NotImplementedError"]

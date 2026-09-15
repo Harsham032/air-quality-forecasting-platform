@@ -1,0 +1,40 @@
+# Full comparison: four architectures against four baselines on the UCI Air
+# Quality series. Roughly 10-20 minutes on a laptop CPU.
+run:
+  name: default
+  seed: 20260101
+  output_dir: reports
+  figure_dir: figures
+
+data:
+  path: data/raw/AirQuality.csv
+  target: NO2(GT)
+  min_observed_share: 0.5
+  interpolate_limit: 6
+
+split:
+  lookback: 24
+  horizon: 1
+  train_share: 0.70
+  validation_share: 0.15
+
+models:
+  architectures: [lstm, gru, cnn, cnn_lstm]
+  units: 64
+  filters: 64
+  kernel_size: 3
+  dropout: 0.2
+  learning_rate: 0.001
+  epochs: 50
+  batch_size: 64
+  patience: 8
+
+baselines:
+  seasonal_period: 24
+  ridge_alpha: 1.0
+  include_ridge: true
+
+evaluation:
+  unit: ug/m3
+  require_physical_units: true
+  reference_baseline: persistence

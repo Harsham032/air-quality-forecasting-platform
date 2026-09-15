@@ -1,0 +1,41 @@
+# A short run for smoke-testing the pipeline end to end. The numbers it
+# produces are not results - too few epochs, one architecture - and are not
+# reported anywhere.
+run:
+  name: fast
+  seed: 20260101
+  output_dir: reports
+  figure_dir: figures
+
+data:
+  path: data/raw/AirQuality.csv
+  target: NO2(GT)
+  min_observed_share: 0.5
+  interpolate_limit: 6
+
+split:
+  lookback: 24
+  horizon: 1
+  train_share: 0.70
+  validation_share: 0.15
+
+models:
+  architectures: [gru]
+  units: 16
+  filters: 16
+  kernel_size: 3
+  dropout: 0.1
+  learning_rate: 0.003
+  epochs: 3
+  batch_size: 128
+  patience: 2
+
+baselines:
+  seasonal_period: 24
+  ridge_alpha: 1.0
+  include_ridge: true
+
+evaluation:
+  unit: ug/m3
+  require_physical_units: true
+  reference_baseline: persistence
