@@ -1,0 +1,12 @@
+# Runtime dependencies. Versions are floors rather than pins so the project
+# keeps working as libraries move; the exact versions a published result was
+# produced on are recorded in docs/results.md and in each run's summary file.
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.4
+tensorflow-cpu>=2.16
+matplotlib>=3.8
+pydantic>=2.6
+pydantic-settings>=2.2
+PyYAML>=6.0
+structlog>=24.1
