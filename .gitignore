@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing and type caches
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# Secrets
+.env
+.env.local
+*.pem
+*.key
+!.env.example
+
+# Data - acquire with `make data`
+data/raw/
+data/interim/
+data/processed/
+!data/README.md
+
+# Trained models and artifacts
+artifacts/
+*.keras
+*.h5
+*.joblib
+*.pkl
+
+# Reports - regenerate with `make experiment`
+reports/*
+!reports/.gitkeep
+
+# Figures - regenerate with `make experiment`. The default run's figures are
+# committed so the README and results document render on GitHub; everything
+# else (smoke runs, sweeps, ad-hoc horizons) is not.
+figures/*
+!figures/.gitkeep
+!figures/default-*.png
+
+# Logs
+logs/
+*.log
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+.ipynb_checkpoints/
